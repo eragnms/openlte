@@ -1476,10 +1476,10 @@ void turbo_encode(LIBLTE_PHY_STRUCT *phy_struct,
                  to:
                            ------->+---------------->+------------- out
                            |       ^                 ^
-                           |  |-|  |   |-|      |-|  |       
-                 in_act ------|D|----->|D|----->|D|---         
-                           |  |-|      |-|  |   |-|  |          
-                           |                v        v         
+                           |  |-|  |   |-|      |-|  |
+                 in_act ------|D|----->|D|----->|D|---
+                           |  |-|      |-|  |   |-|  |
+                           |                v        v
                            ---------------->+------->+------------- in
                  in_act can be determined using viterbi decoding and
                  a second copy of in can be calculated using in_act
@@ -10016,10 +10016,10 @@ void turbo_encode(LIBLTE_PHY_STRUCT *phy_struct,
                  to:
                            ------->+---------------->+------------- out
                            |       ^                 ^
-                           |  |-|  |   |-|      |-|  |       
-                 in_act ------|D|----->|D|----->|D|---         
-                           |  |-|      |-|  |   |-|  |          
-                           |                v        v         
+                           |  |-|  |   |-|      |-|  |
+                 in_act ------|D|----->|D|----->|D|---
+                           |  |-|      |-|  |   |-|  |
+                           |                v        v
                            ---------------->+------->+------------- in
                  in_act can be determined using viterbi decoding and
                  a second copy of in can be calculated using in_act
