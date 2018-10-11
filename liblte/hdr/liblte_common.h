@@ -39,6 +39,7 @@
 
 #include "typedefs.h"
 #include <string.h>
+#include <iostream>
 
 /*******************************************************************************
                               DEFINES
@@ -46,6 +47,7 @@
 
 // FIXME: This was chosen arbitrarily
 #define LIBLTE_MAX_MSG_SIZE 4096
+#define MARK std::cout << "Program execution has reached " << __FILE__ << " line: " << __LINE__ << std::endl
 
 /*******************************************************************************
                               TYPEDEFS

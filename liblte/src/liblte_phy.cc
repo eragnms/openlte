@@ -1092,6 +1092,7 @@ void phich_channel_map(LIBLTE_PHY_STRUCT              *phy_struct,
 // Enums
 // Structs
 // Functions
+
 void phich_channel_demap(LIBLTE_PHY_STRUCT              *phy_struct,
                          LIBLTE_PHY_PCFICH_STRUCT       *pcfich,
                          LIBLTE_PHY_SUBFRAME_STRUCT     *subframe,
@@ -7785,6 +7786,8 @@ void phich_channel_demap(LIBLTE_PHY_STRUCT              *phy_struct,
             idx += 3;
         }else{
             // FIXME: Not handling extended PHICH duration
+                // TODO: this is the error that gets reported
+                std::cout << "phich_dur: " << phich_dur << std::endl;
             printf("ERROR: Not handling extended PHICH duration\n");
         }
         // Step 9

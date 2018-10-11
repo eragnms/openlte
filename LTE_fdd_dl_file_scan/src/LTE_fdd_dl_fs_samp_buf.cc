@@ -439,6 +439,8 @@ int32 LTE_fdd_dl_fs_samp_buf::work(int32                      ninput_items,
                 }
                 break;
             case LTE_FDD_DL_FS_SAMP_BUF_STATE_PDSCH_DECODE_SIB1:
+                    MARK;
+                    std::cout << "dur at call: " << mib.phich_config.dur << std::endl;
                 if(LIBLTE_SUCCESS == liblte_phy_get_dl_subframe_and_ce(phy_struct,
                                                                        i_buf,
                                                                        q_buf,
@@ -485,6 +487,7 @@ int32 LTE_fdd_dl_fs_samp_buf::work(int32                      ninput_items,
                 }
                 break;
             case LTE_FDD_DL_FS_SAMP_BUF_STATE_PDSCH_DECODE_SI_GENERIC:
+                    MARK;
                 if(LIBLTE_SUCCESS == liblte_phy_get_dl_subframe_and_ce(phy_struct,
                                                                        i_buf,
                                                                        q_buf,
