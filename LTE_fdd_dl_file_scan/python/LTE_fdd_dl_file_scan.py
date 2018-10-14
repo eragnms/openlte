@@ -33,13 +33,19 @@ class LTE_fdd_dl_file_scan(gr.top_block):
         input_filename = args[0]
 
         # Build flow graph
+        print("1...")
         self.fsrc = blocks.file_source(size, input_filename, False)
+        print("2...")
         self.samp_buf = LTE_fdd_dl_fs.samp_buf(size)
+        print("3...")
         self.connect(self.fsrc, self.samp_buf)
+        print("4...")
 
 if __name__ == '__main__':
     tb = LTE_fdd_dl_file_scan()
     try:
+        print("5...")
         tb.run()
+        print("6...")
     except KeyboardInterrupt:
         pass
