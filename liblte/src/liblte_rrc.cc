@@ -9500,7 +9500,7 @@ LIBLTE_ERROR_ENUM liblte_rrc_unpack_bcch_bch_msg(LIBLTE_BIT_MSG_STRUCT *msg,
 
         // SFN/4
         mib->sfn_div_4 = rrc_bits_2_value(&msg_ptr, 8);
-
+        MARK;
         err = LIBLTE_SUCCESS;
     }
 
@@ -9563,6 +9563,7 @@ LIBLTE_ERROR_ENUM liblte_rrc_pack_bcch_dlsch_msg(LIBLTE_RRC_BCCH_DLSCH_MSG_STRUC
 
     return(err);
 }
+
 LIBLTE_ERROR_ENUM liblte_rrc_unpack_bcch_dlsch_msg(LIBLTE_BIT_MSG_STRUCT            *msg,
                                                    LIBLTE_RRC_BCCH_DLSCH_MSG_STRUCT *bcch_dlsch_msg)
 {
@@ -9600,7 +9601,7 @@ LIBLTE_ERROR_ENUM liblte_rrc_unpack_bcch_dlsch_msg(LIBLTE_BIT_MSG_STRUCT        
             }
         }
     }
-
+    std::cout << "unpack_bcch_dlsch_msg: " << err << std::endl;
     return(err);
 }
 
