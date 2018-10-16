@@ -321,124 +321,123 @@ int32 LTE_fdd_dl_fs_samp_buf::work(int32                      ninput_items,
                                                 timing_struct.freq_offset[corr_peak_idx] += freq_offset;
                                         }
 
-                        //                 // Search for SSS
-                        //                 MARK;
-                        //                 state            = LTE_FDD_DL_FS_SAMP_BUF_STATE_SSS_SEARCH;
-                        //                 num_samps_needed = phy_struct->N_samps_per_subfr * SSS_SEARCH_NUM_SUBFRAMES;
-                        //         }else{
-                        //                 // Go back to coarse timing search
-                        //                 MARK;
-                        //                 state             = LTE_FDD_DL_FS_SAMP_BUF_STATE_COARSE_TIMING_SEARCH;
-                        //                 samp_buf_r_idx   += phy_struct->N_samps_per_subfr * COARSE_TIMING_SEARCH_NUM_SUBFRAMES;
-                        //                 num_samps_needed  = phy_struct->N_samps_per_subfr * COARSE_TIMING_SEARCH_NUM_SUBFRAMES;
-                        //         }
-                        //         break;
-                        // case LTE_FDD_DL_FS_SAMP_BUF_STATE_SSS_SEARCH:
-                        //         if(LIBLTE_SUCCESS == liblte_phy_find_sss(phy_struct,
-                        //                                                  i_buf,
-                        //                                                  q_buf,
-                        //                                                  N_id_2,
-                        //                                                  timing_struct.symb_starts[corr_peak_idx],
-                        //                                                  pss_thresh,
-                        //                                                  &N_id_1,
-                        //                                                  &frame_start_idx))
-                        //         {
-                        //                 N_id_cell = 3*N_id_1 + N_id_2;
+                                        // Search for SSS
+                                        MARK;
+                                        state            = LTE_FDD_DL_FS_SAMP_BUF_STATE_SSS_SEARCH;
+                                        num_samps_needed = phy_struct->N_samps_per_subfr * SSS_SEARCH_NUM_SUBFRAMES;
+                                }else{
+                                        // Go back to coarse timing search
+                                        MARK;
+                                        state             = LTE_FDD_DL_FS_SAMP_BUF_STATE_COARSE_TIMING_SEARCH;
+                                        samp_buf_r_idx   += phy_struct->N_samps_per_subfr * COARSE_TIMING_SEARCH_NUM_SUBFRAMES;
+                                        num_samps_needed  = phy_struct->N_samps_per_subfr * COARSE_TIMING_SEARCH_NUM_SUBFRAMES;
+                                }
+                                break;
+                        case LTE_FDD_DL_FS_SAMP_BUF_STATE_SSS_SEARCH:
+                                if(LIBLTE_SUCCESS == liblte_phy_find_sss(phy_struct,
+                                                                         i_buf,
+                                                                         q_buf,
+                                                                         N_id_2,
+                                                                         timing_struct.symb_starts[corr_peak_idx],
+                                                                         pss_thresh,
+                                                                         &N_id_1,
+                                                                         &frame_start_idx))
+                                {
+                                        N_id_cell = 3*N_id_1 + N_id_2;
 
-                        //                 for(i=0; i<N_decoded_chans; i++)
-                        //                 {
-                        //                         if(N_id_cell == decoded_chans[i])
-                        //                         {
-                        //                                 break;
-                        //                         }
-                        //                 }
-                        //                 if(i != N_decoded_chans)
-                        //                 {
-                        //                         // Go back to coarse timing search
-                        //                         MARK;
-                        //                         state = LTE_FDD_DL_FS_SAMP_BUF_STATE_COARSE_TIMING_SEARCH;
-                        //                         corr_peak_idx++;
-                        //                         init();
-                        //                 }else{
-                        //                         // Decode BCH
-                        //                         MARK;
-                        //                         state = LTE_FDD_DL_FS_SAMP_BUF_STATE_BCH_DECODE;
-                        //                         while(frame_start_idx < samp_buf_r_idx)
-                        //                         {
-                        //                                 frame_start_idx += phy_struct->N_samps_per_frame;
-                        //                         }
-                        //                         samp_buf_r_idx   = frame_start_idx;
-                        //                         num_samps_needed = phy_struct->N_samps_per_frame * BCH_DECODE_NUM_FRAMES;
-                        //                 }
-                        //         }else{
-                        //                 // Go back to coarse timing search
-                        //                 MARK;
-                        //                 state             = LTE_FDD_DL_FS_SAMP_BUF_STATE_COARSE_TIMING_SEARCH;
-                        //                 samp_buf_r_idx   += phy_struct->N_samps_per_subfr * COARSE_TIMING_SEARCH_NUM_SUBFRAMES;
-                        //                 num_samps_needed  = phy_struct->N_samps_per_subfr * COARSE_TIMING_SEARCH_NUM_SUBFRAMES;
-                        //         }
-                        //         break;
-                        // case LTE_FDD_DL_FS_SAMP_BUF_STATE_BCH_DECODE:
-                        //         if(LIBLTE_SUCCESS == liblte_phy_get_dl_subframe_and_ce(phy_struct,
-                        //                                                                i_buf,
-                        //                                                                q_buf,
-                        //                                                                samp_buf_r_idx,
-                        //                                                                0,
-                        //                                                                N_id_cell,
-                        //                                                                4,
-                        //                                                                &subframe) &&
-                        //            LIBLTE_SUCCESS == liblte_phy_bch_channel_decode(phy_struct,
-                        //                                                            &subframe,
-                        //                                                            N_id_cell,
-                        //                                                            &N_ant,
-                        //                                                            rrc_msg.msg,
-                        //                                                            &rrc_msg.N_bits,
-                        //                                                            &sfn_offset) &&
-                        //            LIBLTE_SUCCESS == liblte_rrc_unpack_bcch_bch_msg(&rrc_msg,
-                        //                                                             &mib))
-                        //         {
-                        //                 switch(mib.dl_bw)
-                        //                 {
-                        //                 case LIBLTE_RRC_DL_BANDWIDTH_6:
-                        //                         N_rb_dl = LIBLTE_PHY_N_RB_DL_1_4MHZ;
-                        //                         break;
-                        //                 case LIBLTE_RRC_DL_BANDWIDTH_15:
-                        //                         N_rb_dl = LIBLTE_PHY_N_RB_DL_3MHZ;
-                        //                         break;
-                        //                 case LIBLTE_RRC_DL_BANDWIDTH_25:
-                        //                         N_rb_dl = LIBLTE_PHY_N_RB_DL_5MHZ;
-                        //                         break;
-                        //                 case LIBLTE_RRC_DL_BANDWIDTH_50:
-                        //                         N_rb_dl = LIBLTE_PHY_N_RB_DL_10MHZ;
-                        //                         break;
-                        //                 case LIBLTE_RRC_DL_BANDWIDTH_75:
-                        //                         N_rb_dl = LIBLTE_PHY_N_RB_DL_15MHZ;
-                        //                         break;
-                        //                 case LIBLTE_RRC_DL_BANDWIDTH_100:
-                        //                         N_rb_dl = LIBLTE_PHY_N_RB_DL_20MHZ;
-                        //                         break;
-                        //                 }
-                        //                 liblte_phy_update_n_rb_dl(phy_struct, N_rb_dl);
-                        //                 sfn       = (mib.sfn_div_4 << 2) + sfn_offset;
-                        //                 phich_res = liblte_rrc_phich_resource_num[mib.phich_config.res];
-                        //                 print_mib(&mib);
-                        //                 // Add this channel to the list of decoded channels
-                        //                 decoded_chans[N_decoded_chans++] = N_id_cell;
-                        //                 if(LTE_FDD_DL_FS_SAMP_BUF_N_DECODED_CHANS_MAX == N_decoded_chans)
-                        //                 {
-                        //                         done_flag = -1;
-                        //                 }
+                                        for(i=0; i<N_decoded_chans; i++)
+                                        {
+                                                if(N_id_cell == decoded_chans[i])
+                                                {
+                                                        break;
+                                                }
+                                        }
+                                        if(i != N_decoded_chans)
+                                        {
+                                                // Go back to coarse timing search
+                                                MARK;
+                                                state = LTE_FDD_DL_FS_SAMP_BUF_STATE_COARSE_TIMING_SEARCH;
+                                                corr_peak_idx++;
+                                                init();
+                                        }else{
+                                                // Decode BCH
+                                                MARK;
+                                                state = LTE_FDD_DL_FS_SAMP_BUF_STATE_BCH_DECODE;
+                                                while(frame_start_idx < samp_buf_r_idx)
+                                                {
+                                                        frame_start_idx += phy_struct->N_samps_per_frame;
+                                                }
+                                                samp_buf_r_idx   = frame_start_idx;
+                                                num_samps_needed = phy_struct->N_samps_per_frame * BCH_DECODE_NUM_FRAMES;
+                                        }
+                                }else{
+                                        // Go back to coarse timing search
+                                        MARK;
+                                        state             = LTE_FDD_DL_FS_SAMP_BUF_STATE_COARSE_TIMING_SEARCH;
+                                        samp_buf_r_idx   += phy_struct->N_samps_per_subfr * COARSE_TIMING_SEARCH_NUM_SUBFRAMES;
+                                        num_samps_needed  = phy_struct->N_samps_per_subfr * COARSE_TIMING_SEARCH_NUM_SUBFRAMES;
+                                }
+                                break;
+                        case LTE_FDD_DL_FS_SAMP_BUF_STATE_BCH_DECODE:
+                                if(LIBLTE_SUCCESS == liblte_phy_get_dl_subframe_and_ce(phy_struct,
+                                                                                       i_buf,
+                                                                                       q_buf,
+                                                                                       samp_buf_r_idx,
+                                                                                       0,
+                                                                                       N_id_cell,
+                                                                                       4,
+                                                                                       &subframe) &&
+                                   LIBLTE_SUCCESS == liblte_phy_bch_channel_decode(phy_struct,
+                                                                                   &subframe,
+                                                                                   N_id_cell,
+                                                                                   &N_ant,
+                                                                                   rrc_msg.msg,
+                                                                                   &rrc_msg.N_bits,
+                                                                                   &sfn_offset) &&
+                                   LIBLTE_SUCCESS == liblte_rrc_unpack_bcch_bch_msg(&rrc_msg,
+                                                                                    &mib))
+                                {
+                                        switch(mib.dl_bw)
+                                        {
+                                        case LIBLTE_RRC_DL_BANDWIDTH_6:
+                                                N_rb_dl = LIBLTE_PHY_N_RB_DL_1_4MHZ;
+                                                break;
+                                        case LIBLTE_RRC_DL_BANDWIDTH_15:
+                                                N_rb_dl = LIBLTE_PHY_N_RB_DL_3MHZ;
+                                                break;
+                                        case LIBLTE_RRC_DL_BANDWIDTH_25:
+                                                N_rb_dl = LIBLTE_PHY_N_RB_DL_5MHZ;
+                                                break;
+                                        case LIBLTE_RRC_DL_BANDWIDTH_50:
+                                                N_rb_dl = LIBLTE_PHY_N_RB_DL_10MHZ;
+                                                break;
+                                        case LIBLTE_RRC_DL_BANDWIDTH_75:
+                                                N_rb_dl = LIBLTE_PHY_N_RB_DL_15MHZ;
+                                                break;
+                                        case LIBLTE_RRC_DL_BANDWIDTH_100:
+                                                N_rb_dl = LIBLTE_PHY_N_RB_DL_20MHZ;
+                                                break;
+                                        }
+                                        liblte_phy_update_n_rb_dl(phy_struct, N_rb_dl);
+                                        sfn       = (mib.sfn_div_4 << 2) + sfn_offset;
+                                        phich_res = liblte_rrc_phich_resource_num[mib.phich_config.res];
+                                        print_mib(&mib);
+                                        // Add this channel to the list of decoded channels
+                                        decoded_chans[N_decoded_chans++] = N_id_cell;
+                                        if(LTE_FDD_DL_FS_SAMP_BUF_N_DECODED_CHANS_MAX == N_decoded_chans)
+                                        {
+                                                done_flag = -1;
+                                        }
 
-                        //                 // Decode PDSCH for SIB1
-                        //                 MARK;
-                        //                 state = LTE_FDD_DL_FS_SAMP_BUF_STATE_PDSCH_DECODE_SIB1;
-                        //                 if((sfn % 2) != 0)
-                        //                 {
-                        //                         samp_buf_r_idx += phy_struct->N_samps_per_frame;
-                        //                         sfn++;
-                        //                 }
-                        //                 num_samps_needed = phy_struct->N_samps_per_frame * PDSCH_DECODE_SIB1_NUM_F
-                                                RAMES;
+                                        // Decode PDSCH for SIB1
+                                        MARK;
+                                        state = LTE_FDD_DL_FS_SAMP_BUF_STATE_PDSCH_DECODE_SIB1;
+                                        if((sfn % 2) != 0)
+                                        {
+                                                samp_buf_r_idx += phy_struct->N_samps_per_frame;
+                                                sfn++;
+                                        }
+                                        num_samps_needed = phy_struct->N_samps_per_frame * PDSCH_DECODE_SIB1_NUM_FRAMES;
                                 }else{
                                         // Go back to coarse timing search
                                         MARK;
@@ -448,7 +447,6 @@ int32 LTE_fdd_dl_fs_samp_buf::work(int32                      ninput_items,
                                 }
                                 break;
                         case LTE_FDD_DL_FS_SAMP_BUF_STATE_PDSCH_DECODE_SIB1:
-                                std::cout << "dur at call: " << mib.phich_config.dur << std::endl;
                                 if(LIBLTE_SUCCESS == liblte_phy_get_dl_subframe_and_ce(phy_struct,
                                                                                        i_buf,
                                                                                        q_buf,
@@ -1704,7 +1702,6 @@ void LTE_fdd_dl_fs_samp_buf::print_sib8(LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_8_STRUCT 
 
 void LTE_fdd_dl_fs_samp_buf::print_page(LIBLTE_RRC_PAGING_STRUCT *page)
 {
-        MARK;
         uint32 i;
         uint32 j;
 

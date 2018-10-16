@@ -3546,7 +3546,6 @@ LIBLTE_ERROR_ENUM liblte_phy_pdsch_channel_decode(LIBLTE_PHY_STRUCT            *
             err = LIBLTE_SUCCESS;
         }
     }
-    std::cout << "pdsch_channel_decode: " << err << std::endl;
     return(err);
 }
 
@@ -3785,7 +3784,6 @@ LIBLTE_ERROR_ENUM liblte_phy_bch_channel_decode(LIBLTE_PHY_STRUCT          *phy_
                 }
                 if(*N_ant != 0)
                 {
-                        MARK;
                     err = LIBLTE_SUCCESS;
                     break;
                 }
@@ -4617,7 +4615,6 @@ LIBLTE_ERROR_ENUM liblte_phy_pdcch_channel_decode(LIBLTE_PHY_STRUCT             
             {
                 phy_struct->pdcch_descramb_bits[j] = (float)phy_struct->pdcch_soft_bits[j]*(1-2*(float)phy_struct->pdcch_c[i*288+j]);
             }
-            MARK;
             if(pdcch->N_alloc  <  LIBLTE_PHY_PDCCH_MAX_ALLOC &&
                (LIBLTE_SUCCESS == dci_channel_decode(phy_struct,
                                                      phy_struct->pdcch_descramb_bits,
@@ -4656,7 +4653,6 @@ LIBLTE_ERROR_ENUM liblte_phy_pdcch_channel_decode(LIBLTE_PHY_STRUCT             
                               N_ant,
                               &pdcch->alloc[pdcch->N_alloc++]);
             }
-            MARK;
             if(pdcch->N_alloc  <  LIBLTE_PHY_PDCCH_MAX_ALLOC &&
                (LIBLTE_SUCCESS == dci_channel_decode(phy_struct,
                                                      phy_struct->pdcch_descramb_bits,
@@ -4695,7 +4691,6 @@ LIBLTE_ERROR_ENUM liblte_phy_pdcch_channel_decode(LIBLTE_PHY_STRUCT             
                               &pdcch->alloc[pdcch->N_alloc++]);
             }
         }
-        MARK;
         for(i=0; i<2; i++)
         {
             idx = 0;
@@ -4821,7 +4816,6 @@ LIBLTE_ERROR_ENUM liblte_phy_pdcch_channel_decode(LIBLTE_PHY_STRUCT             
             }
         }
     }
-    std::cout << "pdcch_channel_decode: " << err << std::endl;
     return(err);
 }
 
@@ -5884,7 +5878,6 @@ LIBLTE_ERROR_ENUM liblte_phy_get_dl_subframe_and_ce(LIBLTE_PHY_STRUCT          *
                 }
             }
         }
-        MARK;
         err = LIBLTE_SUCCESS;
     }
 
@@ -7791,7 +7784,6 @@ void phich_channel_demap(LIBLTE_PHY_STRUCT              *phy_struct,
         }else{
             // FIXME: Not handling extended PHICH duration
                 // TODO: this is the error that gets reported
-                std::cout << "phich_dur: " << phich_dur << std::endl;
             printf("ERROR: Not handling extended PHICH duration\n");
         }
         // Step 9
@@ -12446,7 +12438,6 @@ LIBLTE_ERROR_ENUM dci_channel_decode(LIBLTE_PHY_STRUCT *phy_struct,
             break;
         }
     }
-    std::cout << "dci_channel_decode: " << err << std::endl;
     return(err);
 }
 

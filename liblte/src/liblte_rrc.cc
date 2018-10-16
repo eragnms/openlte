@@ -4185,8 +4185,6 @@ LIBLTE_ERROR_ENUM liblte_rrc_unpack_phich_config_ie(uint8                       
     if(ie_ptr       != NULL &&
        phich_config != NULL)
     {
-            MARK;
-            std::cout << "ie_ptr: " << ie_ptr << std::endl;
         phich_config->dur = (LIBLTE_RRC_PHICH_DURATION_ENUM)rrc_bits_2_value(ie_ptr, 1);
         phich_config->res = (LIBLTE_RRC_PHICH_RESOURCE_ENUM)rrc_bits_2_value(ie_ptr, 2);
 
@@ -9500,7 +9498,6 @@ LIBLTE_ERROR_ENUM liblte_rrc_unpack_bcch_bch_msg(LIBLTE_BIT_MSG_STRUCT *msg,
 
         // SFN/4
         mib->sfn_div_4 = rrc_bits_2_value(&msg_ptr, 8);
-        MARK;
         err = LIBLTE_SUCCESS;
     }
 
@@ -9601,7 +9598,6 @@ LIBLTE_ERROR_ENUM liblte_rrc_unpack_bcch_dlsch_msg(LIBLTE_BIT_MSG_STRUCT        
             }
         }
     }
-    std::cout << "unpack_bcch_dlsch_msg: " << err << std::endl;
     return(err);
 }
 
