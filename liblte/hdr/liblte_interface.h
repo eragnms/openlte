@@ -122,14 +122,14 @@ static const uint8 liblte_interface_band_num[LIBLTE_INTERFACE_BAND_N_ITEMS] = { 
 *********************************************************************/
 // Defines
 #define LIBLTE_INTERFACE_DL_EARFCN_INVALID 65535
-static const uint16 liblte_interface_first_dl_earfcn[LIBLTE_INTERFACE_BAND_N_ITEMS] = {   25,   607,  1207,  1957,  2407,  2675,  3000,  3457,
+static const uint16 liblte_interface_first_dl_earfcn[LIBLTE_INTERFACE_BAND_N_ITEMS] = {   25,   607,  1207,  1957,  2407,  2675,  2775,  3457,
                                                                                         3825,  4175,  4775,  5017,  5205,  5305,  5755,  5875,
-                                                                                        6025,  6400,  6475,  6400,  7507,  7725,  8047, 36025,
+                                                                                        6025,  6175,  6475,  6625,  7507,  7725,  8047, 36025,
                                                                                        36225, 36357, 36957, 37575, 37775, 38275, 38675, 39675,
                                                                                        41615, 43615};
-static const uint16 liblte_interface_last_dl_earfcn[LIBLTE_INTERFACE_BAND_N_ITEMS]  = {  575,  1193,  1943,  2393,  2643,  2725,  3000,  3793,
+static const uint16 liblte_interface_last_dl_earfcn[LIBLTE_INTERFACE_BAND_N_ITEMS]  = {  575,  1193,  1943,  2393,  2643,  2725,  3425,  3793,
                                                                                         4125,  4725,  4925,  5173,  5255,  5355,  5825,  5975,
-                                                                                        6125,  6400,  6575,  6400,  7693,  8015,  8683, 36175,
+                                                                                        6125,  6425,  6575,  7375,  7693,  8015,  8683, 36175,
                                                                                        36325, 36943, 37543, 37725, 38225, 38625, 39625, 41565,
                                                                                        43565, 45565};
 // Enums
