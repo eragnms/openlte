@@ -4185,8 +4185,6 @@ LIBLTE_ERROR_ENUM liblte_rrc_unpack_phich_config_ie(uint8                       
     if(ie_ptr       != NULL &&
        phich_config != NULL)
     {
-            MARK;
-            std::cout << "ie_ptr: " << ie_ptr << std::endl;
         phich_config->dur = (LIBLTE_RRC_PHICH_DURATION_ENUM)rrc_bits_2_value(ie_ptr, 1);
         phich_config->res = (LIBLTE_RRC_PHICH_RESOURCE_ENUM)rrc_bits_2_value(ie_ptr, 2);
 

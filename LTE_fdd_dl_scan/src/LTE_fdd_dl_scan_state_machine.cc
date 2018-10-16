@@ -245,6 +245,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                         freq_shift(0, SAMP_BUF_SIZE, timing_struct.freq_offset[corr_peak_idx]);
 
                         // Search for PSS and fine timing
+                        MARK;
                         state          = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_PSS_AND_FINE_TIMING_SEARCH;
                         N_samps_needed = pss_and_fine_timing_search_num_samps;
                     }else{
@@ -279,10 +280,12 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                     }
 
                     // Search for SSS
+                    MARK;
                     state          = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_SSS_SEARCH;
                     N_samps_needed = sss_search_num_samps;
                 }else{
                     // Go back to coarse timing search
+                        MARK;
                     state          = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_COARSE_TIMING_SEARCH;
                     samp_buf_r_idx = 0;
                     samp_buf_w_idx = 0;
@@ -316,11 +319,13 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                     if(i != N_decoded_chans)
                     {
                         // Go back to coarse timing search
+                            MARK;
                         state = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_COARSE_TIMING_SEARCH;
                         corr_peak_idx++;
                         init();
                     }else{
                         // Decode BCH
+                            MARK;
                         state = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_BCH_DECODE;
                         while(frame_start_idx < samp_buf_r_idx)
                         {
@@ -331,6 +336,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                     }
                 }else{
                     // Go back to coarse timing search
+                        MARK;
                     state          = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_COARSE_TIMING_SEARCH;
                     samp_buf_r_idx = 0;
                     samp_buf_w_idx = 0;
@@ -402,6 +408,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                         }
 
                         // Decode PDSCH for SIB1
+                        MARK;
                         state = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_PDSCH_DECODE_SIB1;
                         if((sfn % 2) != 0)
                         {
@@ -415,6 +422,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                     }
                 }else{
                     // Try next MIB
+                        MARK;
                     state            = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_BCH_DECODE;
                     frame_start_idx += one_frame_num_samps;
                     samp_buf_r_idx   = frame_start_idx;
@@ -423,6 +431,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                     if(N_bch_attempts > MAX_ATTEMPTS)
                     {
                         // Go back to coarse timing
+                            MARK;
                         state          = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_COARSE_TIMING_SEARCH;
                         samp_buf_r_idx = 0;
                         samp_buf_w_idx = 0;
@@ -472,12 +481,14 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                     {
                         if(!sib1_sent)
                         {
+                                MARK;
                             interface->send_ctrl_sib1_decoded_msg(&chan_data, (LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_1_STRUCT *)&bcch_dlsch_msg.sibs[0].sib, sfn);
                             sib1_sent = true;
                         }
                     }
 
                     // Decode all PDSCHs
+                    MARK;
                     state          = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_PDSCH_DECODE_SI_GENERIC;
                     N_sfr          = 0;
                     N_samps_needed = pdsch_decode_si_generic_num_samps;
@@ -536,6 +547,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                             case LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_1:
                                 if(!sib1_sent)
                                 {
+                                        MARK;
                                     interface->send_ctrl_sib1_decoded_msg(&chan_data, (LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_1_STRUCT *)&bcch_dlsch_msg.sibs[i].sib, sfn);
                                     sib1_sent = true;
                                 }
@@ -543,6 +555,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                             case LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_2:
                                 if(!sib2_sent)
                                 {
+                                        MARK;
                                     interface->send_ctrl_sib2_decoded_msg(&chan_data, (LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_2_STRUCT *)&bcch_dlsch_msg.sibs[i].sib, sfn);
                                     sib2_sent = true;
                                 }
@@ -550,6 +563,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                             case LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_3:
                                 if(!sib3_sent)
                                 {
+                                        MARK;
                                     interface->send_ctrl_sib3_decoded_msg(&chan_data, (LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_3_STRUCT *)&bcch_dlsch_msg.sibs[i].sib, sfn);
                                     sib3_sent = true;
                                 }
@@ -557,6 +571,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                             case LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_4:
                                 if(!sib4_sent)
                                 {
+                                        MARK;
                                     interface->send_ctrl_sib4_decoded_msg(&chan_data, (LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_4_STRUCT *)&bcch_dlsch_msg.sibs[i].sib, sfn);
                                     sib4_sent = true;
                                 }
@@ -564,6 +579,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                             case LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_5:
                                 if(!sib5_sent)
                                 {
+                                        MARK;
                                     interface->send_ctrl_sib5_decoded_msg(&chan_data, (LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_5_STRUCT *)&bcch_dlsch_msg.sibs[i].sib, sfn);
                                     sib5_sent = true;
                                 }
@@ -571,6 +587,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                             case LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_6:
                                 if(!sib6_sent)
                                 {
+                                        MARK;
                                     interface->send_ctrl_sib6_decoded_msg(&chan_data, (LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_6_STRUCT *)&bcch_dlsch_msg.sibs[i].sib, sfn);
                                     sib6_sent = true;
                                 }
@@ -578,6 +595,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                             case LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_7:
                                 if(!sib7_sent)
                                 {
+                                        MARK;
                                     interface->send_ctrl_sib7_decoded_msg(&chan_data, (LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_7_STRUCT *)&bcch_dlsch_msg.sibs[i].sib, sfn);
                                     sib7_sent = true;
                                 }
@@ -585,6 +603,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                             case LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_8:
                                 if(!sib8_sent)
                                 {
+                                        MARK;
                                     interface->send_ctrl_sib8_decoded_msg(&chan_data, (LIBLTE_RRC_SYS_INFO_BLOCK_TYPE_8_STRUCT *)&bcch_dlsch_msg.sibs[i].sib, sfn);
                                     sib8_sent = true;
                                 }
@@ -603,6 +622,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
                 {
                     channel_found(switch_freq, done_flag);
                 }else{
+                        MARK;
                     state          = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_PDSCH_DECODE_SI_GENERIC;
                     N_samps_needed = pdsch_decode_si_generic_num_samps;
                     N_sfr++;
@@ -671,6 +691,7 @@ int32 LTE_fdd_dl_scan_state_machine::work(int32                      ninput_item
 
 void LTE_fdd_dl_scan_state_machine::init(void)
 {
+        MARK;
     state                 = LTE_FDD_DL_SCAN_STATE_MACHINE_STATE_COARSE_TIMING_SEARCH;
     phich_res             = 0;
     sfn                   = 0;
